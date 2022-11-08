@@ -81,4 +81,3 @@ end
 RRavg= mean(RR); 
 RRavg_intime= RRavg/360;
 HR= 60/RRavg_intime; //Heart_rate calculation
-HR= 60/RRavg_intime; //Heart_rate calculation
