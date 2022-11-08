@@ -6,8 +6,8 @@ yb_norm1= yb_norm-mean(yb_norm);
 [a1,d1] = lwt(a,'db2');
 [a2,d2] = lwt(a1,'db2');
 [a3,d3] = lwt(a2,'db2');
-m1= max(d3); //maximum amplitude in level four detailed coefficient 
-th1 = 0.18*m1; //Threshold calculation
+m2= max(d3); //maximum amplitude in level four detailed coefficient 
+th1 = 0.18*m2; //Threshold calculation
 D_3= abs(d3);
 for i1=1:length(D_3) //QRS complex detection
 	if D_3(i1)>th1
