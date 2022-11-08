@@ -34,7 +34,7 @@ for k=1:length(m1) //storing the location of the maximum amplitude in array “b
  for i=1:length(QRS)
         if (m1(k)==QRS(i))
             b(j)=i;
-	b1(j1)=QRS;
+	b1(j1)=QRS(i);
             j=j+1;
 	j1=j1+1;
         end
@@ -45,44 +45,40 @@ w=1;
 for z=1:length(b) //removal of false-peaks and detecting R-peaks
     if((b(l+1)-b(z)<2))|| ((b(l+1)-b(z))<8)
 		if(b1(l+1)>b1(z))
-			R(w)=b(l+1);
+			R(w)=b(l+1)*16;
         		l=l+1;
 		else
-			R(w)=b(z);
+			R(w)=b(z)*16;
 			l=l+1;
 		end
     else 
         w=w+1;
         z=l+1;
         l=z;
-        R(w)=b(z);
+        R(w)=b(z)*16;
     end
 end
-s1=1; 
-max1=0; 
-s2=0; 
-s3=0; 
-max2=0; 
-l2=1;
 yb_norm_abs= abs(yb_norm1);
-for s1=1:length(x) //windowing technique to detect the exact R-peak locations as R_locations
-	s2=R(s1)-30;
-	s3=R(s1)+30;
-		for s4=s2:s3
-			if(max1<yb_norm_abs)
-				max1=yb_norm_abs;
-				max2=s4;
-			else
-				R_location(l2)=max2;
-				l2=l2+1;
-			end
-		end
-end
+for s1=2: length(R)//windowing technique to detect the exact R-peak locations as R_locations
+    var1=R(s1);
+    s2=var1-30;
+    s3=var1+30;
+    max=0;
+    loc=0;
+    for s5=s2:s3
+        if(yb_norm_abs(s5+1)>=max)
+            max=yb_norm_abs(s5+1);
+            loc=s5+1;
+        end
+    end
+     R_location(s1-1)=loc; 
+end        
 q1=1;
 for q=1:length(R_location) //RR interval calculations
-    RR(q1)=R_locatiom(q+1)-R_location(q);
+    RR(q1)=R_location(q+1)-R_location(q);
     q1=q1+1;
 end
 RRavg= mean(RR); 
 RRavg_intime= RRavg/360;
+HR= 60/RRavg_intime; //Heart_rate calculation
 HR= 60/RRavg_intime; //Heart_rate calculation
